@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -113,3 +113,23 @@ class LocationSalesSummary(BaseModel):
     is_home: bool
     sold: int
     revenue: float
+
+
+class ImportRow(BaseModel):
+    row_number: int
+    serial_number: str
+    item_desc: str
+    painting_code: Optional[str] = None
+    variant_code: Optional[str] = None
+    location_code: Optional[str] = None
+    stocked: int
+    sold: int
+    quantity: int
+    errors: List[str]
+
+
+class ImportResult(BaseModel):
+    dry_run: bool
+    imported: int
+    failed: int
+    rows: List[ImportRow]

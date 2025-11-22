@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from typing import List
 
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 
-from . import models, schemas, serials
+from . import importer, models, schemas, serials
 from .database import Base, engine, get_db
 
 Base.metadata.create_all(bind=engine)
@@ -232,3 +232,21 @@ def home_grouping(db: Session = Depends(get_db)):
         or 0.0
     )
     return {"on_hand": int(on_hand), "sold": int(sold), "revenue": float(revenue)}
+
+
+@app.post("/import/inventory", response_model=schemas.ImportResult)
+def import_inventory(
+    file: UploadFile = File(...), dry_run: bool = True, db: Session = Depends(get_db)
+):
+    try:
+        file.file.seek(0)
+        result = importer.process_inventory_upload(file.file, db, dry_run)
+    except ValueError as exc:  # pragma: no cover - FastAPI handles
+        raise HTTPException(status_code=400, detail=str(exc))
+
+    return schemas.ImportResult(
+        dry_run=result.dry_run,
+        imported=result.imported,
+        failed=result.failed,
+        rows=[schemas.ImportRow(**row.__dict__) for row in result.rows],
+    )
