@@ -40,15 +40,45 @@ Serial numbers follow `PTG-<PAINTING>-<VARIANT>-<LOCATION>-<####>` and are valid
 
 ## Frontend
 
-Located in `frontend/`. The dashboard is a simple static site consuming the API.
-
-Open `frontend/index.html` in a browser while the backend is running at `http://localhost:8000`.
+Located in `frontend/`. The dashboard is a simple static site consuming the API and is now served by the backend itself at `/app/`.
 
 Features:
 
 - Dashboard tabs for home vs. external locations
 - Location cards showing on-hand, sold, and revenue
 - Inline forms to add paintings and product variants
+
+## Desktop app
+
+A bundled desktop entry point lives at `desktop_app.py`. It starts the FastAPI backend in a background thread, serves the bundled dashboard from the backend at `http://127.0.0.1:8000/app/`, and renders that page inside a native window using [pywebview](https://pywebview.flowrl.com/). No separate browser compatibility is required.
+
+### Run locally
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-desktop.txt
+python desktop_app.py
+```
+
+This starts the API and opens the desktop window pointed at the backend-served dashboard.
+
+### Build a Windows executable
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-desktop.txt
+pip install pyinstaller
+pyinstaller \
+  --noconfirm \
+  --name "CoastalWavesInventory" \
+  --add-data "frontend/*;frontend" \
+  --paths backend \
+  desktop_app.py
+```
+
+The resulting `dist/CoastalWavesInventory/CoastalWavesInventory.exe` can be distributed and launched directly.
 
 ## Project layout
 

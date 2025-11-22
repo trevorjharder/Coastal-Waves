@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import List
 
 from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from sqlalchemy import func
 
@@ -13,10 +16,24 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Coastal Waves Inventory API")
 
+FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
+if FRONTEND_DIR.exists():
+    app.mount("/app", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
+else:
+    FRONTEND_DIR = None
+
 
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+
+@app.get("/")
+def desktop_index():
+    if not FRONTEND_DIR:
+        raise HTTPException(status_code=503, detail="Frontend bundle missing")
+    index_path = FRONTEND_DIR / "index.html"
+    return FileResponse(index_path)
 
 
 # Painting endpoints
