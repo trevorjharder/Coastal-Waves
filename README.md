@@ -50,6 +50,36 @@ Features:
 - Location cards showing on-hand, sold, and revenue
 - Inline forms to add paintings and product variants
 
+## Desktop app
+
+A bundled desktop entry point lives at `desktop_app.py`. It starts the FastAPI backend in a background thread and renders the existing dashboard inside a native window using [pywebview](https://pywebview.flowrl.com/).
+
+### Run locally
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-desktop.txt
+python desktop_app.py
+```
+
+### Build a Windows executable
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-desktop.txt
+pip install pyinstaller
+pyinstaller \
+  --noconfirm \
+  --name "CoastalWavesInventory" \
+  --add-data "frontend/*;frontend" \
+  --paths backend \
+  desktop_app.py
+```
+
+The resulting `dist/CoastalWavesInventory/CoastalWavesInventory.exe` can be distributed and launched directly.
+
 ## Project layout
 
 ```
