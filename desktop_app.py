@@ -57,13 +57,9 @@ def main():
     if not _wait_for_api():
         raise RuntimeError("Backend failed to start on port 8000")
 
-    index_path = (REPO_ROOT / "frontend" / "index.html").resolve()
-    if not index_path.exists():
-        raise FileNotFoundError(f"Cannot find frontend at {index_path}")
-
     webview.create_window(
         "Coastal Waves Inventory",
-        url=index_path.as_uri(),
+        url=f"http://{API_HOST}:{API_PORT}/app/",
         width=1200,
         height=800,
     )
