@@ -23,6 +23,8 @@ uvicorn app.main:app --reload
 
 The API will initialize its schema automatically in `data.db`. Set `DATABASE_URL` to point at PostgreSQL if desired.
 
+Inventory can be bulk-loaded from an Excel sheet using `POST /import/inventory?dry_run=true|false`. The importer expects the `Inventory` worksheet with these columns (case-insensitive): `Foreign Key` (serial number), `Item Desc`, `Location`, `Stocked`, `Sold`, `Quantity`. Dry-run mode returns validation results without writing to the database.
+
 ### Key endpoints
 
 - `POST /paintings` | `GET /paintings`
@@ -31,6 +33,7 @@ The API will initialize its schema automatically in `data.db`. Set `DATABASE_URL
 - `POST /inventory` | `GET /inventory`
 - `POST /transactions` | `GET /transactions`
 - Reports: `GET /reports/stock`, `GET /reports/sales`, `GET /reports/home`
+- Import: `POST /import/inventory` (Excel upload; set `dry_run` query param)
 - Health: `GET /health`
 
 Serial numbers follow `PTG-<PAINTING>-<VARIANT>-<LOCATION>-<####>` and are validated server-side.
