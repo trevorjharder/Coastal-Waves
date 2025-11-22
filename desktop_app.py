@@ -13,7 +13,13 @@ import time
 from pathlib import Path
 
 import uvicorn
-import webview
+try:
+    import webview
+except ImportError as exc:  # pragma: no cover - runtime dependency guard
+    webview = None
+    _webview_import_error = exc
+else:
+    _webview_import_error = None
 
 REPO_ROOT = Path(__file__).resolve().parent
 BACKEND_MODULE = "app.main:app"
@@ -56,6 +62,12 @@ def main():
 
     if not _wait_for_api():
         raise RuntimeError("Backend failed to start on port 8000")
+
+    if webview is None:
+        raise ModuleNotFoundError(
+            "pywebview is required for the desktop shell. Install dependencies with "
+            "`pip install -r requirements-desktop.txt`."
+        ) from _webview_import_error
 
     webview.create_window(
         "Coastal Waves Inventory",
