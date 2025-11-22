@@ -1,1 +1,65 @@
-# Coastal-Waves
+# Coastal Waves Inventory
+
+This repository now includes a lightweight FastAPI backend with SQLite/PostgreSQL support and a static dashboard frontend.
+
+## Backend
+
+Located in `backend/`.
+
+### Setup
+
+```bash
+cd backend
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+Start the API (default: `localhost:8000`):
+
+```bash
+uvicorn app.main:app --reload
+```
+
+The API will initialize its schema automatically in `data.db`. Set `DATABASE_URL` to point at PostgreSQL if desired.
+
+### Key endpoints
+
+- `POST /paintings` | `GET /paintings`
+- `POST /variants` | `GET /variants`
+- `POST /locations` | `GET /locations`
+- `POST /inventory` | `GET /inventory`
+- `POST /transactions` | `GET /transactions`
+- Reports: `GET /reports/stock`, `GET /reports/sales`, `GET /reports/home`
+- Health: `GET /health`
+
+Serial numbers follow `PTG-<PAINTING>-<VARIANT>-<LOCATION>-<####>` and are validated server-side.
+
+## Frontend
+
+Located in `frontend/`. The dashboard is a simple static site consuming the API.
+
+Open `frontend/index.html` in a browser while the backend is running at `http://localhost:8000`.
+
+Features:
+
+- Dashboard tabs for home vs. external locations
+- Location cards showing on-hand, sold, and revenue
+- Inline forms to add paintings and product variants
+
+## Project layout
+
+```
+backend/
+  app/
+    database.py
+    main.py
+    models.py
+    schemas.py
+    serials.py
+  requirements.txt
+frontend/
+  index.html
+  app.js
+  styles.css
+```
