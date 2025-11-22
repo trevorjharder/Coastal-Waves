@@ -1,0 +1,112 @@
+:root {
+  --bg: #f5f7fb;
+  --panel: #ffffff;
+  --accent: #1e90ff;
+  --text: #1f2937;
+  --muted: #6b7280;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  background: var(--panel);
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+  margin: 0 0 8px;
+}
+
+nav button {
+  margin-right: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+nav button.active {
+  background: var(--accent);
+  color: white;
+}
+
+main {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 16px;
+}
+
+section#summary {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+section#locations {
+  grid-column: span 2;
+}
+
+.card {
+  background: var(--panel);
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+#location-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.location-card {
+  background: var(--panel);
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+#forms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+
+input, select, button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+}
+
+button[type="submit"] {
+  background: var(--accent);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+p {
+  margin: 6px 0;
+}

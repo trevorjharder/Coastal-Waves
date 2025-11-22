@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coastal Waves Inventory</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Coastal Waves Inventory Dashboard</h1>
+    <nav>
+      <button id="tab-home" class="active">Home locations</button>
+      <button id="tab-external">External locations</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="summary">
+      <div class="card" id="home-summary">
+        <h2>Home Summary</h2>
+        <p><strong>On hand:</strong> <span data-home-onhand>0</span></p>
+        <p><strong>Sold:</strong> <span data-home-sold>0</span></p>
+        <p><strong>Revenue:</strong> $<span data-home-revenue>0.00</span></p>
+      </div>
+      <div class="card" id="tab-summary">
+        <h2>Selected tab totals</h2>
+        <p><strong>Total on hand:</strong> <span data-tab-onhand>0</span></p>
+        <p><strong>Total sold:</strong> <span data-tab-sold>0</span></p>
+        <p><strong>Revenue:</strong> $<span data-tab-revenue>0.00</span></p>
+      </div>
+    </section>
+
+    <section id="locations">
+      <h2>Locations</h2>
+      <div id="location-grid"></div>
+    </section>
+
+    <section id="forms">
+      <div class="card">
+        <h2>Add Painting</h2>
+        <form id="painting-form">
+          <label>Code <input name="code" required /></label>
+          <label>Name <input name="name" required /></label>
+          <button type="submit">Save painting</button>
+        </form>
+      </div>
+      <div class="card">
+        <h2>Add Variant</h2>
+        <form id="variant-form">
+          <label>Painting <select name="painting_id"></select></label>
+          <label>Category <input name="category" required /></label>
+          <label>Size <input name="size" required /></label>
+          <label><input type="checkbox" name="stretch" /> Stretched</label>
+          <label><input type="checkbox" name="framing" /> Framed</label>
+          <button type="submit">Save variant</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
